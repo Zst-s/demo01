@@ -1,0 +1,23 @@
+# Generated ROS workspace files
+/build/
+/install/
+/log/
+/work/
+/checkpoints/
+/.passage_lab/
+/.claude/
+/.vscode/
+**/__pycache__/
+*.pyc
+*.db3
+*.mcap
+.env
+.env.*
+/src/rm_nav_bringup/map/backups/
+/src/rm_localization/point_lio/PCD/
+
+# Point-cloud maps are intentionally not published.
+*.pcd
+
+# Large upstream demonstration animation, unused at runtime.
+/src/rm_localization/FAST_LIO/doc/real_experiment2.gif

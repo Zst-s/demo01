@@ -1,0 +1,46 @@
+# Isolated Nav2 planner. Never include this file in real-robot bringup.
+/passage_fusion_test/planner_server:
+  ros__parameters:
+    use_sim_time: false
+    expected_planner_frequency: 1.0
+    planner_plugins: ["GridBased"]
+    GridBased:
+      plugin: "nav2_navfn_planner/NavfnPlanner"
+      tolerance: 0.0
+      use_astar: true
+      allow_unknown: false
+
+/passage_fusion_test/global_costmap/global_costmap:
+  ros__parameters:
+    use_sim_time: false
+    global_frame: map
+    robot_base_frame: base_link
+    update_frequency: 5.0
+    publish_frequency: 5.0
+    transform_tolerance: 0.2
+    resolution: 0.1
+    track_unknown_space: true
+    always_send_full_costmap: true
+    footprint: "[[0.225, 0.225], [0.225, -0.225], [-0.225, -0.225], [-0.225, 0.225]]"
+    plugins: ["static_layer", "correction_layer", "terrain_layer", "inflation_layer"]
+    static_layer:
+      plugin: "nav2_costmap_2d::StaticLayer"
+      enabled: true
+      map_topic: /passage_fusion_test/map
+      map_subscribe_transient_local: true
+      footprint_clearing_enabled: false
+    correction_layer:
+      plugin: "sentry_passage_fusion_test::StaticCorrectionLayer"
+      enabled: true
+      allow_test_evidence: true
+      evidence_timeout: 1.0
+    terrain_layer:
+      plugin: "sentry_terrain_bridge::TerrainLayer"
+      enabled: true
+      topic: /passage_fusion_test/terrain/grid
+      data_timeout: 0.7
+    inflation_layer:
+      plugin: "nav2_costmap_2d::InflationLayer"
+      enabled: true
+      inflation_radius: 0.3
+      cost_scaling_factor: 5.0

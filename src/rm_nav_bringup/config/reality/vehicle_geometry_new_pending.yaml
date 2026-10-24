@@ -1,0 +1,21 @@
+# 2026-10-21 用户最终参数记录；实际外参由 measurement_params_real.yaml 进入 URDF。
+# 尺寸已接入实车配置；calibration_verified 仅表示尚未实车核验，不作净空门槛。
+vehicle: new_car_20261021
+lio: pointlio
+robot_length_m: 0.62
+robot_width_m: 0.58
+robot_height_m: 0.3
+base_link_height_above_ground_m: 0.11
+lidar_translation_from_base_link_m:
+- -0.32
+- 0.0
+- 0.066
+lidar_rpy_from_base_link_rad:
+- -1.308996938996
+- 0.0
+- 1.570796326795
+lidar_height_above_ground_m: 0.176
+ground_segmentation_sensor_height_m: 0.176
+calibration_verified: false
+passage_motion_enabled: false
+footprint_bounds_from_base_link_m: {front: 0.30, rear: 0.32, left: 0.29, right: 0.29}

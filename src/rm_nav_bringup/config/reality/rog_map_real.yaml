@@ -1,0 +1,108 @@
+# 来自 2027-sentry-navi 的 ROGMap 地形算法，适配 sen_xin 的单雷达和 odom 坐标系。
+# 本配置不读取先验地图，不替换 LIO、AMCL/ICP/SLAM，也不发布速度或 TF。
+# SLAM Toolbox 从真实点云生成的 /scan 建持久全局地图；ROGMap 只输出局部地形。
+sentry_terrain:
+  ros__parameters:
+    # 本仓库已有的密集 IMU-body 点云，不改变原 /cloud_registered 的密度或消费链路。
+    cloud_topic: /cloud_registered_body
+    input_frame: livox_frame  # 这是原节点的消息标签；数学坐标实际为 IMU，详见迁移说明。
+    cloud_coordinates: imu
+    odom_topic: /Odometry
+    max_cloud_odom_dt: 0.10  # 点云与里程计时间戳最大差值，单位秒。
+    max_input_age: 0.5      # 拒绝过期点云，不靠堆积队列掩盖算力不足。
+    # NUC02：同时计算实测坡面净空，输出 measured_* 状态和独立 Marker。
+    # shadow 不替换原 verified_segment、不清障、不授权底盘；不是车辆爬坡能力参数。
+    clearance.support_mode: shadow
+    clearance.support_max_slope: 0.35  # 局部几何模型拟合上限，弧度。
+    # 历史虚拟扫描接口停用；launch 始终覆盖为 false。
+    mapping_scan_enabled: false
+    mapping_scan_frame: livox_frame
+    mapping_scan_range_min: 0.48
+    mapping_scan_range_max: 4.5  # 10 m 滚动窗口从中心到边缘不足 5 m。
+    mapping_scan_angle_increment: 0.00872664626  # 0.5 度。
+    mapping_scan_time: 0.1
+    # sensor_offset 由 launch 从所选 LIO 的 mapping.extrinsic_T 读取，避免两处标定不一致。
+    rog_map:
+      frame_id: odom       # 点云已在此坐标系内；不能直接改成 map/camera_init。
+      resolution: 0.05
+      inflation_resolution: 0.05
+      map_size: [10.0, 10.0, 3.0]  # 扩大垂直窗口以覆盖下面的 Z 截取范围。
+      fix_map_origin: [0.0, 0.0, 0.0]
+      point_filt_num: 1    # 不在感知适配器中再次抽掉细小障碍点。
+      intensity_thresh: -1  # 只使用几何；适配器不要求 intensity 字段。
+      load_pcd_en: false
+      map_sliding:
+        enable: true
+        threshold: 0.2
+        center_offset_enable: false  # 不继承来源车的双雷达前向偏移。
+        center_offset: [0.0, 0.0, 0.0]
+      ros_callback:
+        enable: false     # 本适配器负责时间/坐标检查，禁止原库再订阅一套输入。
+      cloud_filter:
+        enable: false     # 不继承来源赛场专用的剔除区域。
+      raycasting:
+        enable: true
+        batch_update_size: 1
+        ray_range: [0.03, 10.0]
+        local_update_box: [10.0, 10.0, 3.0]
+        unk_thresh: 0.70
+        p_hit: 0.9        #在占据栅格中，若有一个点云击中，则该栅格的占据概率应大于 0.5。
+        p_miss: 0.45      
+        p_min: 0.12         
+        p_max: 0.97
+        p_occ: 0.85                   
+        p_free: 0.499
+        parallel_enable: false
+        num_threads: 4
+      decay:
+        enable: true
+        keep_time: 0.5    # 低于 1.0 秒的短时障碍不应残留，避免车辆在坡道/起始倾斜时误判。
+        clear_time: 1.2   # 必须大于 keep_time；障碍不应无限残留。
+        active_list_enable: true  # 仅遍历曾命中的活跃体素，避免每帧扫描整个 3D 滚动窗口。
+      projection:
+        enable: true
+        prior_map:
+          enable: false  # 保留 sen_xin 原来的 map_server / SLAM 地图链路。
+        # 注意：这里是 odom 系绝对高度，不是“距雷达高度”。实车坡道/起始倾斜需另行验证。
+        scan_z_min_abs: -0.35   
+        scan_z_max_abs: 1.5   
+        unknown_as_occupied: false  # 未知在桥接输出中仍为 -1，不伪装为自由格。
+        min_observed_voxels: 2   # 仅在单个 XY 栅格内有两个以上高度回波时才判为地面。
+        # 以下分类门限沿用来源参数，尚不是你的车的实测通行能力。
+        surface_height_delta_max: 0.25     #在单个 XY 栅格内，若两个高度回波的高度差小于此值，则判为地面。
+        wall_height_delta_min: 0.50
+        wall_occupancy_ratio_min: 0.80     # 仅在单个 XY 栅格内有两个以上高度回波时才判为墙。
+        tunnel_height_delta_min: 0.26
+        tunnel_height_delta_max: 0.60
+        tunnel_occupancy_ratio_max: 0.60  
+        passable_cost: 50
+        passable_as_free: true                  
+        hysteresis_enable: false              
+        hysteresis_count: 2
+        obstacle_hold_time: 1.5
+        mask_filter_en: true
+        fill_occ_min: 8
+        denoise_occ_max: 0
+      field:
+        enable: false     # 现有 Nav2 用 inflation_layer；暂不计算 MINCO 才需要的距离场。
+        max_distance: 6.0
+        min_distance: -3.0
+        clamp_distance: true
+        interpolation: quadratic
+        update_rate: 20.0
+      esdf:
+        enable: false    # 现有 Nav2 用 inflation_layer；暂不计算 MINCO 才需要的距离场。
+      performance:
+        enable: false    
+        detailed_csv_enable: false
+        summary_csv_enable: false
+        print_enable: false
+        dirty_column_enable: true
+        dirty_full_ratio: 0.30
+        parallel_raycast_enable: false
+        raycast_num_threads: 4
+      visualization:
+        enable: true      # 发布三维占据和二维分类调试话题，供建图 RViz 核对 ROGMap。
+        frame_id: odom
+        rate: 2.0         # 实车调试先限制可视化频率，避免占用过多 NUC 算力。
+        range: [10.0, 10.0, 3.0]

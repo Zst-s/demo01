@@ -1,0 +1,6 @@
+# Optional build dependency only; do not import a second copy when NUC already has serial.
+repositories:
+  serial:
+    type: git
+    url: https://github.com/RoverRobotics-forks/serial-ros2.git
+    version: ae46504ae7d4a199ea9bba0e73a6f083bf172f80

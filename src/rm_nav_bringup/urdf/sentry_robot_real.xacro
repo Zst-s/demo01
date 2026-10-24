@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="xyz" default="-0.32 0.0 0.066" />
+  <xacro:arg name="rpy" default="-1.308996938996 0.0 1.570796326795" />
+
+  <link name="livox_frame" />
+
+  <link name="base_link" />
+
+  <joint name="livox_joint" type="fixed">
+    <origin xyz="$(arg xyz)" rpy="$(arg rpy)" />
+    <parent link="base_link" />
+    <child link="livox_frame" />
+  </joint>
+
+</robot>

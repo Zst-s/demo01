@@ -1,0 +1,31 @@
+ground_segmentation:
+  ros__parameters:
+    n_threads: 4                # number of threads to use.
+
+    # 显式保持修复声明前真正生效的范围/拟合误差；旧 YAML 的三项曾被忽略。
+    r_min: 0.3                  # minimum point distance.
+    r_max: 20                   # maximum point distance.
+    n_bins: 120                 # number of radial bins.
+    n_segments: 360             # number of radial segments.
+
+    max_dist_to_line: 0.14       # maximum vertical distance of point to line to be considered ground.
+
+    # 用户确认雷达原点离地 .176 m；base_link 离地 .11 m，安装 Z 差为 .066 m。
+    # 对齐只旋转并保持雷达原点；此值不是 base_link 相对高度。
+    sensor_height: 0.176
+    min_slope: -0.4             # minimum slope of a ground line.
+    max_slope: 0.11            # maximum slope of a ground line.
+    max_fit_error: 0.10         # maximum error of a point during line fit.
+    long_threshold: 1.0         # distance between points after which they are considered far from each other.
+    max_long_height: 0.1        # maximum height change to previous point in long line.
+    max_start_height: 0.5       # maximum difference to estimated ground height to start a new line.
+    line_search_angle: 0.8      # how far to search in angular direction to find a line [rad].
+
+    gravity_aligned_frame: "odom"  # Point-LIO 已通过静止 IMU 对齐重力。
+
+    latch: false                # latch output topics or not
+    visualize: false            # visualize segmentation result - USE ONLY FOR DEBUGGING
+
+    input_topic: "/livox/lidar/pointcloud"
+    obstacle_output_topic: "segmentation/obstacle"
+    ground_output_topic: "segmentation/ground"

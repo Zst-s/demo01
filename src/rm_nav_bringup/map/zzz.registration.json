@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "lio": "pointlio",
+  "scan_frame": "lidar_scan",
+  "frame": "map",
+  "association": {
+    "source_frame": "odom",
+    "frame": "map",
+    "lio": "pointlio",
+    "stamp": [
+      1792756342,
+      115087656
+    ],
+    "points": 1925008,
+    "last_lidar_stamp": 1792756342.7151043,
+    "translation": [
+      -0.005181971264218786,
+      0.0776737037622865,
+      0.02429451899792488
+    ],
+    "quaternion": [
+      0.014991893917924416,
+      -0.01625517462250325,
+      -0.0574555110640789,
+      0.9981031392912815
+    ]
+  },
+  "map_geometry": {
+    "resolution": 0.05000000074505806,
+    "size": [
+      213,
+      137
+    ],
+    "origin": [
+      -2.8637594662147685,
+      -2.510155737017238,
+      0.0
+    ],
+    "origin_quaternion": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "files": {
+    "map/zzz.yaml": "5e95ffe907d987bc37893261551f1c1fc20d8c8b927878dc45e6e76c18cf1a13",
+    "map/zzz.pgm": "45351b179f12f5927a6aeeb30e0a32ba30352c68b81a46ec4c80892006e6b548",
+    "map/zzz.posegraph": "aa2330bd5c3e6489abe185e733d91c21cfad9535800a6ecdd706ff58caf4b26d",
+    "map/zzz.data": "93ab12a9eccbcbf1c99ad3ebd4f2112038b530a355c61285e3e145073b207745",
+    "PCD/zzz.pcd": "15642db4762943f85ca9ef62e9183fa0b324bb1f56f55dbfd82efba512a918d2"
+  }
+}

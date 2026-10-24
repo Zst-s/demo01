@@ -1,0 +1,54 @@
+# Interface test only. Never load this configuration on a real chassis.
+/passage_fusion_test/controller_server:
+  ros__parameters:
+    use_sim_time: false
+    controller_frequency: 20.0
+    odom_topic: /passage_fusion_test/odom_map
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.001
+    min_theta_velocity_threshold: 0.001
+    progress_checker_plugin: progress_checker
+    goal_checker_plugins: [goal_checker]
+    controller_plugins: [FollowPath]
+    progress_checker:
+      plugin: nav2_controller::SimpleProgressChecker
+      required_movement_radius: 0.05
+      movement_time_allowance: 60.0
+    goal_checker:
+      plugin: nav2_controller::SimpleGoalChecker
+      xy_goal_tolerance: 0.05
+      yaw_goal_tolerance: 0.1
+      stateful: true
+    FollowPath:
+      plugin: nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+      desired_linear_vel: 0.2
+      lookahead_dist: 0.4
+      use_velocity_scaled_lookahead_dist: false
+      # Side-view scans require the base to turn before translating; allowing
+      # a forward arc while rotating can sweep the body into the tunnel edge.
+      use_rotate_to_heading: true
+      rotate_to_heading_angular_vel: 0.5
+      use_collision_detection: true
+      use_regulated_linear_velocity_scaling: true
+      use_cost_regulated_linear_velocity_scaling: false
+      transform_tolerance: 0.2
+      min_approach_linear_velocity: 0.05
+/passage_fusion_test/local_costmap/local_costmap:
+  ros__parameters:
+    use_sim_time: false
+    global_frame: map
+    robot_base_frame: base_link
+    update_frequency: 10.0
+    publish_frequency: 5.0
+    transform_tolerance: 0.2
+    resolution: 0.1
+    track_unknown_space: false
+    footprint: "[[0.225, 0.225], [0.225, -0.225], [-0.225, -0.225], [-0.225, 0.225]]"
+    plugins: [static_layer, inflation_layer]
+    static_layer:
+      plugin: nav2_costmap_2d::StaticLayer
+      map_topic: /passage_fusion_test/controller_fixture_map
+      map_subscribe_transient_local: true
+    inflation_layer:
+      plugin: nav2_costmap_2d::InflationLayer
+      inflation_radius: 0.3

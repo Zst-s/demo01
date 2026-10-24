@@ -1,0 +1,5 @@
+# 2026-10-21 新车安装关系，m / rad。由 bringup_real 传入 xacro。
+# 与同一 MID360 内部的 IMU-LiDAR 外参不同。
+base_link2livox_frame:
+  xyz: "\"-0.32 0.0 0.066\""
+  rpy: "\"-1.308996938996 0.0 1.570796326795\""

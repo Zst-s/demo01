@@ -1,0 +1,6 @@
+tree_exec_node:
+  ros__parameters:
+    tree_xml_file: "behavior_tree/f8.xml"
+    groot_port: 5556
+    enable_groot: true
+    tick_period_milliseconds: 50

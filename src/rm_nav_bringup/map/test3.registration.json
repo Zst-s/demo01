@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "lio": "pointlio",
+  "scan_frame": "lidar_scan",
+  "frame": "map",
+  "association": {
+    "source_frame": "odom",
+    "frame": "map",
+    "lio": "pointlio",
+    "stamp": [
+      1792752860,
+      513362444
+    ],
+    "points": 753476,
+    "last_lidar_stamp": 1792752861.5136397,
+    "translation": [
+      0.028187652078627883,
+      -0.00894834146731108,
+      0.041583468021877665
+    ],
+    "quaternion": [
+      0.002702049639142654,
+      -0.01680735104938813,
+      0.003534251381741754,
+      0.9998488490495056
+    ]
+  },
+  "map_geometry": {
+    "resolution": 0.05000000074505806,
+    "size": [
+      184,
+      296
+    ],
+    "origin": [
+      -5.823804515104396,
+      -6.267713758907967,
+      0.0
+    ],
+    "origin_quaternion": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "files": {
+    "map/test3.yaml": "dbfc9a7f1beaf1bcee714760d601493d55121e9cee2728e654226db867bb32d7",
+    "map/test3.pgm": "652ab1f8bc472cc2b26ab98fabd7a02df794c79ec902159d03f550b4f392cbc2",
+    "map/test3.posegraph": "fc683a90cda17dffe47bf46a1f688332c74f89176358ca2b8bff0e20de12d56b",
+    "map/test3.data": "075e0a04ef5da8b723724b5e3579c49841b0da4f27aaa2730332b4217b572974",
+    "PCD/test3.pcd": "bc265bdef52594505038f85cf178074f1f0c5889009f704f65b54235dc2633d8"
+  }
+}

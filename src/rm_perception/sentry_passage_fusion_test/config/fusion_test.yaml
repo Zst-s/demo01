@@ -1,0 +1,23 @@
+# 仅用于无运动控制的隔离实验，严禁 include 到实车启动文件。
+/passage_fusion_test/fusion_harness:
+  ros__parameters:
+    use_sim_time: false
+    static_layer:
+      enabled: true
+      map_topic: /passage_fusion_test/map
+      map_subscribe_transient_local: true
+      footprint_clearing_enabled: false
+    correction_layer:
+      enabled: true
+      allow_test_evidence: true  # 默认插件关闭，测试专用显式授权。
+      evidence_timeout: 1.0     # 秒，消息时间与接收间隔都必须有效。
+    terrain_layer:
+      enabled: true
+      topic: /passage_fusion_test/terrain/grid
+      data_timeout: 0.7
+    inflation_layer:
+      enabled: true
+      inflation_radius: 0.3     # 合成地图测试参数，不是实车调参。
+      cost_scaling_factor: 5.0
+      inflate_unknown: false
+      inflate_around_unknown: false

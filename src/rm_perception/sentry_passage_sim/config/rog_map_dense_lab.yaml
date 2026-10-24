@@ -1,0 +1,84 @@
+sentry_terrain:
+  ros__parameters:
+    use_sim_time: true
+    cloud_topic: /passage_sim/points
+    odom_topic: /passage_sim/sensor_odom
+    input_frame: passage_lidar
+    cloud_coordinates: imu
+    sensor_offset: [0.0, 0.0, 0.0]
+    self_filter:
+      enabled: true
+      box: [-0.24, 0.24, -0.24, 0.24, -0.50, -0.05]
+    max_input_age: 0.5
+    max_cloud_odom_dt: 0.1
+    mapping_scan_enabled: false
+    clearance:
+      enabled: true
+      robot_length: 0.45
+      robot_width: 0.45
+      robot_height: 0.32
+      max_observation_age: 60.0
+      confirmations: 3
+      travel_length: 0.2
+      publish_verified_segments: true
+    rog_map:
+      frame_id: world
+      resolution: 0.10
+      inflation_resolution: 0.10
+      map_size: [12.0, 12.0, 4.0]
+      virtual_ground_height: -0.5
+      virtual_ceil_height: 2.5
+      fix_map_origin: [0.0, 0.0, 0.0]
+      point_filt_num: 1
+      intensity_thresh: -1
+      load_pcd_en: false
+      map_sliding: {enable: true, threshold: 0.2, center_offset_enable: false}
+      ros_callback: {enable: false}
+      cloud_filter: {enable: false}
+      raycasting:
+        enable: true
+        batch_update_size: 1
+        ray_range: [0.1, 8.0]
+        local_update_box: [12.0, 12.0, 4.0]
+        unk_thresh: 0.70
+        p_hit: 0.9
+        p_miss: 0.45
+        p_min: 0.12
+        p_max: 0.97
+        p_occ: 0.85
+        p_free: 0.499
+        parallel_enable: false
+      decay: {enable: false, keep_time: 100.0, clear_time: 101.0, active_list_enable: false}
+      projection:
+        enable: true
+        prior_map: {enable: false}
+        # The flat laboratory floor is z=0; keep it as support evidence in 3D,
+        # but do not project it into Nav2 as a vertical obstacle.
+        scan_z_min_abs: 0.15
+        scan_z_max_abs: 1.6
+        unknown_as_occupied: false
+        min_observed_voxels: 2
+        surface_height_delta_max: 0.15
+        wall_height_delta_min: 0.50
+        wall_occupancy_ratio_min: 0.80
+        tunnel_height_delta_min: 0.30
+        tunnel_height_delta_max: 1.30
+        tunnel_occupancy_ratio_max: 0.60
+        passable_cost: 50
+        passable_as_free: true
+        hysteresis_enable: false
+        obstacle_hold_time: 1.0
+        mask_filter_en: false
+      field: {enable: false}
+      esdf: {enable: false}
+      performance:
+        enable: false
+        detailed_csv_enable: false
+        summary_csv_enable: false
+        print_enable: false
+        dirty_column_enable: true
+      visualization:
+        enable: true
+        frame_id: world
+        rate: 2.0
+        range: [12.0, 12.0, 4.0]

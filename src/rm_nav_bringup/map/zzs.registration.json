@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "lio": "pointlio",
+  "scan_frame": "lidar_scan",
+  "frame": "map",
+  "association": {
+    "source_frame": "odom",
+    "frame": "map",
+    "lio": "pointlio",
+    "stamp": [
+      1792811026,
+      583036379
+    ],
+    "points": 3793416,
+    "last_lidar_stamp": 1792811027.4817402,
+    "translation": [
+      0.2171188984708682,
+      0.06751126952477564,
+      0.03232687100155005
+    ],
+    "quaternion": [
+      -0.00965689040261544,
+      -0.010290655492066732,
+      0.02168187004426351,
+      0.999665315687545
+    ]
+  },
+  "map_geometry": {
+    "resolution": 0.05000000074505806,
+    "size": [
+      264,
+      417
+    ],
+    "origin": [
+      -5.245827354984149,
+      -9.553698396215907,
+      0.0
+    ],
+    "origin_quaternion": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "files": {
+    "map/zzs.yaml": "530eb2e77637f6413a5660e4c02940feae5a726f378ab153e3ca9d471472cfa1",
+    "map/zzs.pgm": "8eabbf4d9204846948efd8bedd583894c1d3b24cb09ddc8df7073535cdbfcda9",
+    "map/zzs.posegraph": "90dc3b476ea919559d3d4529de0ae65df1f9aa92443aee70d7fc3ec9e68c14d2",
+    "map/zzs.data": "e15a047fa69a73f0aa1c1853a23d24e02435d894363d5d1cfaa872052b44dcc2",
+    "PCD/zzs.pcd": "1e10c2020f20ff9ba6f872a3eb4a9d08901916cc39772ab1f90c9cc081424c12"
+  }
+}

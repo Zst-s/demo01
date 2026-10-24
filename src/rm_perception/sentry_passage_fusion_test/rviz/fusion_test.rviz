@@ -1,0 +1,80 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Fixed Frame: map
+    Background Color: 35; 35; 35
+    Frame Rate: 15
+  Displays:
+    - Class: rviz_default_plugins/Map
+      Name: "Original Static Map"
+      Enabled: false
+      Value: false
+      Draw Behind: true
+      Alpha: 1
+      Color Scheme: map
+      Topic:
+        Value: /passage_fusion_test/map
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+      Use Timestamp: false
+    - Class: rviz_default_plugins/Map
+      Name: "Safe Input Preview (NOT permission)"
+      Enabled: false
+      Value: false
+      Draw Behind: false
+      Alpha: 0.5
+      Color Scheme: map
+      Topic:
+        Value: /passage_fusion_test/evidence_preview
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+      Use Timestamp: false
+    - Class: rviz_default_plugins/Map
+      Name: "Final Costmap"
+      Enabled: true
+      Value: true
+      Draw Behind: false
+      Alpha: 1
+      Color Scheme: map
+      Topic:
+        Value: /passage_fusion_test/costmap
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+      Use Timestamp: false
+    - Class: rviz_default_plugins/Marker
+      Name: "Stage and Raw Costs"
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /passage_fusion_test/status_marker
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+      Namespaces: {}
+      Queue Size: 10
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+  Views:
+    Current:
+      Class: rviz_default_plugins/TopDownOrtho
+      Name: Current View
+      Target Frame: <Fixed Frame>
+      Scale: 60
+      X: 0
+      Y: -0.4
+      Angle: 0
+    Saved: []
+Window Geometry:
+  Width: 1100
+  Height: 800

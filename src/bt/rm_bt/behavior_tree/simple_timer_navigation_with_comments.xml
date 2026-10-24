@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" main_tree_to_execute="MainTree">
+
+  <!--
+    ==========================================
+    坐标定义说明
+    ==========================================
+
+    格式: goal="x; y; z; qx; qy; qz; qw"
+
+    - x, y, z: 位置坐标（米），z通常为0（地面）
+    - qx, qy, qz, qw: 姿态四元数（朝向）
+
+    常用朝向：
+    - (0, 0, 0, 1)         正向（0度）
+    - (0, 0, 0.707, 0.707) 左转90度
+    - (0, 0, 1, 0)         转180度
+    - (0, 0, -0.707, 0.707) 右转90度
+
+    ==========================================
+    如何获取你的实际坐标：
+    ==========================================
+
+    方法1: 使用RViz
+      1. 启动导航: ros2 launch rm_nav_bringup bringup_real.launch.py
+      2. 在RViz中用 "2D Nav Goal" 点击地图
+      3. 查看坐标: ros2 topic echo /goal_pose
+
+    方法2: 查看当前位置
+      ros2 topic echo /amcl_pose
+
+    方法3: 手动驾驶到目标位置
+      1. ros2 run teleop_twist_keyboard teleop_twist_keyboard
+      2. 开到目标位置后: ros2 topic echo /amcl_pose --once
+
+    ==========================================
+  -->
+
+  <BehaviorTree ID="MainTree">
+    <ReactiveSequence>
+
+      <!-- 获取计时器时间 -->
+      <Timer elapsed_time="{elapsed_time}"/>
+
+      <!-- 导航决策：根据运行时间导航到不同位置 -->
+      <ReactiveFallback>
+
+        <!-- ============================================
+             策略1: 运行 > 60秒，导航到位置A
+             ============================================
+
+             示例场景：比赛后期进攻阶段
+
+             请根据实际场地修改坐标：
+             - 默认示例: (2.0, 3.0)
+             - RoboMaster建议: 敌方前哨站前 (6.0, 2.5)
+             ============================================ -->
+        <Sequence>
+          <CheckElapsedTime elapsed_time="{elapsed_time}"
+                           target_time="60"
+                           operator="greater_than"/>
+          <Nav2Pose goal="0.0;0.0;0;0;0;0;1"/>
+          <!--
+            修改示例1: 敌方前哨站
+            <Nav2Pose goal="6.0;2.5;0;0;0;0;1"/>
+
+            修改示例2: 敌方基地附近
+            <Nav2Pose goal="7.5;2.5;0;0;0;0;1"/>
+          -->
+        </Sequence>
+
+        <!-- ============================================
+             策略2: 运行 > 30秒，导航到位置B
+             ============================================
+
+             示例场景：比赛中期控制资源
+
+             请根据实际场地修改坐标：
+             - 默认示例: (1.0, 2.0)
+             - RoboMaster建议: 中央资源岛 (4.0, 2.5)
+             ============================================ -->
+        <Sequence>
+          <CheckElapsedTime elapsed_time="{elapsed_time}"
+                           target_time="40"
+                           operator="greater_than"/>
+          <Nav2Pose goal="0.0;-2.0;0;0;0;0;1"/>
+          <!--
+            修改示例1: 中央资源岛
+            <Nav2Pose goal="4.0;2.5;0;0;0;0;1"/>
+
+            修改示例2: 己方增益点
+            <Nav2Pose goal="2.0;1.0;0;0;0;0;1"/>
+          -->
+        </Sequence>
+
+        <!-- ============================================
+             策略3: 默认位置C（0-30秒）
+             ============================================
+
+             示例场景：比赛初期防守位置
+
+             请根据实际场地修改坐标：
+             - 默认示例: (0.0, 1.0)
+             - RoboMaster建议: 己方前哨站附近 (1.5, 2.0)
+             ============================================ -->
+        <Sequence>
+          <Nav2Pose goal="0.0;1.0;0;0;0;0;1"/>
+          <!--
+            修改示例1: 己方前哨站防守位
+            <Nav2Pose goal="1.5;2.0;0;0;0;0;1"/>
+
+            修改示例2: 己方出生点
+            <Nav2Pose goal="0.5;2.5;0;0;0;0;1"/>
+          -->
+        </Sequence>
+
+      </ReactiveFallback>
+    </ReactiveSequence>
+  </BehaviorTree>
+
+  <!-- 节点模型定义（供Groot可视化工具使用，不需要修改） -->
+  <TreeNodesModel>
+
+    <Action ID="Timer" editable="true">
+      <output_port name="elapsed_time">从启动到现在经过的时间（秒）</output_port>
+    </Action>
+
+    <Condition ID="CheckElapsedTime" editable="true">
+      <input_port name="elapsed_time" default="0">从启动开始经过的时间（秒）</input_port>
+      <input_port name="target_time" default="30">目标时间（秒）</input_port>
+      <input_port name="operator" default="greater_than">比较运算符: less_than, greater_than, equal</input_port>
+    </Condition>
+
+    <Action ID="Nav2Pose" editable="true">
+      <input_port name="goal" default="0;0;0;0;0;0;1">目标位置(x,y,z,qx,qy,qz,qw)</input_port>
+    </Action>
+
+  </TreeNodesModel>
+
+</root>

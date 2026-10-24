@@ -1,0 +1,14 @@
+{
+  "probe": [
+    1792328273142778904,
+    [
+      0.05039027671634531,
+      0.8649149387337225,
+      -0.48302618182929835
+    ],
+    1.5441650678206706
+  ],
+  "ground_offset": -0.23,
+  "source": "/tmp/passage02-input/passage_nuc_02/passage_nuc_02_0.db3",
+  "note": "Current local ROGMap config, not recorded parameter dump. Approximate reconstruction."
+}

@@ -1,0 +1,24 @@
+./mapping.sh
+
+
+./save_pcd.sh
+
+
+./build.sh
+
+
+./nav.sh
+ros2 launch sentry_passage_fusion_test passage_real.launch.py \
+  mode:=mapping lio:=fastlio enable_motion:=false rviz:=true
+  
+  
+  
+  ros2 bag record -o ~/passage_nuc_06 \
+  /livox/lidar/pointcloud /livox/imu /Odometry /cloud_registered_body \
+  /scan /tf /tf_static /map /terrain/grid \
+  /terrain/clearance/status /terrain/clearance/verified_segment \
+  /passage/memory_status /passage/verified_static_clearing \
+  /global_costmap/costmap /local_costmap/costmap /plan \
+  /passage/probe_status /passage/entry_gate_status /passage/fresh_permit \
+  /passage/live_obstacle /passage/chassis_cmd_vel /clicked_point
+

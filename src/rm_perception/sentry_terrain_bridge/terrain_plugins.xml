@@ -1,0 +1,10 @@
+<library path="terrain_layer">
+  <class name="sentry_terrain_bridge::TerrainLayer" type="sentry_terrain_bridge::TerrainLayer" base_class_type="nav2_costmap_2d::Layer">
+    <description>将 odom 系的 ROGMap 完整滚动投影变换到 Nav2 地图；不发布 TF 或速度。</description>
+  </class>
+</library>
+<library path="static_correction_layer">
+  <class name="sentry_terrain_bridge::StaticCorrectionLayer" type="sentry_terrain_bridge::StaticCorrectionLayer" base_class_type="nav2_costmap_2d::Layer">
+    <description>仅使用新鲜且与当前 /map 匹配的通道证据修正静态占据；必须位于静态层与实时地形层之间，默认关闭。</description>
+  </class>
+</library>

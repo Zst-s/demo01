@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" main_tree_to_execute="MainTree">
+
+  <!-- 主决策树：基于独立计时器的时间导航 -->
+  <BehaviorTree ID="MainTree">
+    <ReactiveSequence>
+
+      <!-- 获取计时器时间 -->
+      <Timer elapsed_time="{elapsed_time}"/>
+
+      <!-- 导航决策：根据运行时间导航到不同位置 -->
+      <ReactiveFallback>
+
+        <!-- 策略1: 运行 > 60秒，导航到位置A -->
+        <Sequence>
+          <CheckElapsedTime elapsed_time="{elapsed_time}"
+                           target_time="60"
+                           operator="greater_than"/>
+          <Nav2Pose goal="0.0;0.0;0;0;0;0;1"/>
+        </Sequence>
+
+        <!-- 策略2: 运行 > 30秒，导航到位置B -->
+        <Sequence>
+          <CheckElapsedTime elapsed_time="{elapsed_time}"
+                           target_time="30"
+                           operator="greater_than"/>
+          <Nav2Pose goal="0.0;-2.0;0;0;0;0;1"/>
+        </Sequence>
+
+        <!-- 策略3: 默认位置C -->
+        <Sequence>
+          <Nav2Pose goal="0.0;1.0;0;0;0;0;1"/>
+        </Sequence>
+
+      </ReactiveFallback>
+    </ReactiveSequence>
+  </BehaviorTree>
+
+  <!-- 节点模型定义 -->
+  <TreeNodesModel>
+
+    <!-- 计时器动作节点 -->
+    <Action ID="Timer" editable="true">
+      <output_port name="elapsed_time">从启动到现在经过的时间（秒）</output_port>
+    </Action>
+
+    <!-- 时间检查条件节点 -->
+    <Condition ID="CheckElapsedTime" editable="true">
+      <input_port name="elapsed_time" default="0">从启动开始经过的时间（秒）</input_port>
+      <input_port name="target_time" default="30">目标时间（秒）</input_port>
+      <input_port name="operator" default="greater_than">比较运算符: less_than, greater_than, equal</input_port>
+    </Condition>
+
+    <!-- 导航动作节点 -->
+    <Action ID="Nav2Pose" editable="true">
+      <input_port name="goal" default="0;0;0;0;0;0;1">目标位置(x,y,z,qx,qy,qz,qw)</input_port>
+    </Action>
+
+  </TreeNodesModel>
+
+</root>

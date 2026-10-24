@@ -1,0 +1,110 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Fixed Frame: world
+    Background Color: 35; 35; 35
+    Frame Rate: 15
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Reference Grid
+      Enabled: true
+      Value: true
+      Cell Size: 1
+      Plane Cell Count: 20
+    - Class: rviz_default_plugins/PointCloud2
+      Name: ROGMap measured occupancy (orange)
+      Enabled: true
+      Value: true
+      Color Transformer: FlatColor
+      Color: 255; 180; 50
+      Position Transformer: XYZ
+      Style: Boxes
+      Size (m): 0.045
+      Alpha: 0.9
+      Decay Time: 0
+      Topic:
+        Value: /rog_map/raw_occupied
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        Depth: 1
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Gazebo raw lidar (optional)
+      Enabled: false
+      Value: false
+      Color Transformer: FlatColor
+      Color: 220; 220; 220
+      Position Transformer: XYZ
+      Style: Points
+      Size (Pixels): 2
+      Decay Time: 0
+      Topic:
+        Value: /passage_sim/points
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        Depth: 1
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Classification reasons (yellow NOT permission)
+      Enabled: true
+      Value: true
+      Namespaces:
+        0_unknown: false
+        1_empty: false
+        legend: true
+      Topic:
+        Value: /rog_map/classification_reasons
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        Depth: 1
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Scene labels (truth NOT perception)
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /passage_sim/scene_labels
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        Depth: 1
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Clearance probe (observation only)
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /terrain/clearance/markers
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        Depth: 1
+    - Class: rviz_default_plugins/Map
+      Name: Terrain grid (optional, Nav2 input)
+      Enabled: false
+      Value: false
+      Alpha: 1
+      Color Scheme: map
+      Topic:
+        Value: /terrain/grid
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        Depth: 1
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/PublishPoint
+      Topic: /passage_sim/clicked_point
+      Single click: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 10
+      Pitch: 0.7
+      Yaw: 3.7
+      Focal Point: {X: 2, Y: 1, Z: 0.4}
+      Target Frame: <Fixed Frame>
+      Near Clip Distance: 0.01
+Window Geometry:
+  Width: 1280
+  Height: 850

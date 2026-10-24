@@ -1,0 +1,14 @@
+tree_exec_node:
+  ros__parameters:
+    # 使用我们创建的时间导航行为树
+    tree_xml_file: "behavior_tree/time_navigation.xml"
+
+    # Groot可视化配置（用于调试）
+    groot_port: 5556
+    enable_groot: true
+
+    # 行为树执行周期（毫秒）
+    tick_period_milliseconds: 50
+
+    # 导航超时设置
+    send_goal_timeout_ms: 10000

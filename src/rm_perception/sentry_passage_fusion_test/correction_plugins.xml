@@ -1,0 +1,5 @@
+<library path="static_correction_test_layer">
+  <class type="sentry_passage_fusion_test::StaticCorrectionLayer" base_class_type="nav2_costmap_2d::Layer">
+    <description>仅用于隔离测试的临时静态清障；默认关闭，要求专用命名空间。</description>
+  </class>
+</library>
